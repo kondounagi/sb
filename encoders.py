@@ -1,10 +1,10 @@
 
 
 
-def count_series(df, column test_df = None):
+def count_encodding(df, column ,test_df = None):
     encodeed = df.groupby(column)[column].count() #median or mean
     df[column +"_count"] = df[column].map(encodeed )
-    if !(test_df is None):
+    if not(test_df is None):
         test_df[column +"_count"] = df[column].map(encodeed)
         return df, test_df
     return df
