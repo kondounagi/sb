@@ -85,3 +85,12 @@ def get_group_window_mean(df, group_col ,target_col,  w_size = 2 ):
     df[new_col_name] = df_gb[target_col]
     
     return df
+
+def count_series(df, column):
+    length = len(df)
+
+    encodeed = df.groupby(column)[column].count() /length #median or mean
+    
+    df[column +"_count"] = df[column].map(encodeed )
+
+    return df
