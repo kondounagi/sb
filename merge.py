@@ -94,3 +94,5 @@ def count_series(df, column):
     df[column +"_count"] = df[column].map(encodeed )
 
     return df
+
+def sample_fix()
