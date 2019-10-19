@@ -27,7 +27,7 @@ def kyuryobi(df):
 
 def target_enc(df, cols, target_col):
     for col in cols:
-        for agg_type in ['mean','std']:
+        for agg_type in ['mean']:
             new_col_name = col+target_col+agg_type
             temp_df = df[[col, target_col]]
             #temp_df['TransactionAmt'] = temp_df['TransactionAmt'].astype(int)
