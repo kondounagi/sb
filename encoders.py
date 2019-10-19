@@ -27,6 +27,11 @@ def get_group_window_mean(df, group_col ,target_col,  w_size = 2 ):
 
 
 def target_enc(df, cols, target_col):
+    """
+    cols ：エンコードしたいカラムの「リスト」
+    target_col
+    """
+
     for col in cols:
         for agg_type in ['mean']:
             new_col_name = col+target_col+agg_type
@@ -39,3 +44,4 @@ def target_enc(df, cols, target_col):
             temp_df = temp_df[new_col_name].to_dict()   
 
             df[new_col_name] = df[col].map(temp_df)
+    return df
