@@ -12,15 +12,18 @@ def get_hists(df,colunns):
 
 
 def get_day(df):
-    df["Year"]= df["data"].str[0:4].astype(int)
-    df["Month"]= df["data"].str[5:7].astype(int)
-    df["Day"]= df["data"].str[8:].astype(int)
+    df["Year"]= df["date"].str[0:4].astype(int)
+    df["Month"]= df["date"].str[5:7].astype(int)
+    df["Day"]= df["date"].str[8:].astype(int)
+    df["Day_from_zero"]  = (df["Month"]-7)* 31 + df["Day"]
     return df
+
   
 def kyuryobi(df):
     df["Payday"] = 0
     df["Payday"].loc[df["Day"].isin([10, 15, 25])]= 1
     return df
+
 
 def target_enc(df, cols, target_col):
     for col in cols:
@@ -45,3 +48,4 @@ def label_encode(df):
             lbl.fit(list(df[f].values.astype(str)))
             df[f] = lbl.transform(list(df[f].values))
         return df
+
