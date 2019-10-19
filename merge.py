@@ -29,7 +29,7 @@ def target_enc(df, cols, target_col):
     for col in cols:
         for agg_type in ['mean','std']:
             new_col_name = col+target_col+agg_type
-            temp_df = df[[col, 'TransactionAmt']]
+            temp_df = df[[col, target_col]]
             #temp_df['TransactionAmt'] = temp_df['TransactionAmt'].astype(int)
             temp_df = temp_df.groupby([col])[target_col].agg([agg_type]).reset_index().rename(
                                                     columns={agg_type: new_col_name})
@@ -49,3 +49,29 @@ def label_encode(df):
             df[f] = lbl.transform(list(df[f].values))
         return df
 
+
+def rolling_encode(df, cols, target_col):
+    for col in cols:
+        for agg_type in ['mean']:
+            new_col_name = col+"_"+ target_col+"_" +agg_type
+            temp_df = df[[col, target_col]]
+            
+            temp_df = temp_df.groupby([col])[target_col].agg([agg_type]).reset_index().rename(
+                                                    columns={agg_type: new_col_name})
+
+            temp_df.index = list(temp_df[col])
+            temp_df = temp_df[new_col_name].to_dict()   
+
+            df[new_col_name] = df[col].map(temp_df)
+
+    return df
+    
+def rolling_encode(df, target_col, oneday_num, w_size = 1):
+    new_col_name = target_col + "_window_mean"
+    tmp = df[target_col].copy()
+
+    tmp = tmp.rolling(w_size).mean()
+    tmp = tmp.shift(oneday_num)
+    df[new_col_name] = tmp
+    df[new_col_name].iloc[:oneday_num] = df[new_col_name].iloc[oneday_num].copy()
+    return df
